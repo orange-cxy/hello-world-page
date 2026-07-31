@@ -1,0 +1,154 @@
+:root {
+  color-scheme: light;
+  --ink: #18201d;
+  --muted: #63706b;
+  --line: #d8ded9;
+  --panel: #ffffff;
+  --wash: #f4f7f2;
+  --accent: #236b52;
+  --accent-2: #b34832;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: linear-gradient(180deg, #f8faf6 0%, #eef3ee 100%);
+}
+
+.shell {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 40px 0;
+}
+
+.hero {
+  min-height: 48vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 1px solid var(--line);
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+h1 {
+  max-width: 880px;
+  margin: 0;
+  font-size: clamp(36px, 7vw, 80px);
+  line-height: 1.02;
+  font-weight: 760;
+}
+
+.summary {
+  max-width: 720px;
+  margin: 22px 0 0;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.meta span {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.72);
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  padding: 28px 0;
+}
+
+article,
+.workflow {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 22px;
+}
+
+h2 {
+  margin: 0 0 14px;
+  font-size: 22px;
+}
+
+p,
+li {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.workflow {
+  margin-top: 8px;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.steps div {
+  min-height: 104px;
+  border-left: 4px solid var(--accent-2);
+  background: var(--wash);
+  border-radius: 6px;
+  padding: 14px;
+}
+
+.steps strong {
+  display: block;
+  color: var(--accent-2);
+  font-size: 22px;
+}
+
+.steps span {
+  display: block;
+  margin-top: 10px;
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+@media (max-width: 760px) {
+  .shell {
+    width: min(100% - 24px, 1120px);
+    padding: 24px 0;
+  }
+
+  .grid,
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    min-height: 42vh;
+  }
+}
