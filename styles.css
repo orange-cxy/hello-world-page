@@ -2,7 +2,7 @@
 :root {
   --primary: #2563eb;
   --secondary: #1e40af;
-  --bg: #f8fafc;
+  --bg: #0000ff; /* 修改为蓝色背景 */
   --text: #1e293b;
   --border: #e2e8f0;
   --card-bg: #ffffff;

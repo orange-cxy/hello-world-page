@@ -5,7 +5,7 @@
 ## 文件说明
 
 - `index.html` - 主页面
-- `styles.css` - 样式表
+- `styles.css` - 样式表（背景已改为蓝色）
 - `script.js` - 交互脚本（表格行高亮）
 
 ## 使用方法
