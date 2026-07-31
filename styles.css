@@ -1,154 +1,126 @@
+/* styles.css */
 :root {
-  color-scheme: light;
-  --ink: #18201d;
-  --muted: #63706b;
-  --line: #d8ded9;
-  --panel: #ffffff;
-  --wash: #f4f7f2;
-  --accent: #236b52;
-  --accent-2: #b34832;
+  --primary: #2563eb;
+  --secondary: #1e40af;
+  --bg: #f8fafc;
+  --text: #1e293b;
+  --border: #e2e8f0;
+  --card-bg: #ffffff;
+  --shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  font-family: Inter, "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: var(--ink);
-  background: linear-gradient(180deg, #f8faf6 0%, #eef3ee 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 20px;
 }
 
-.shell {
-  width: min(1120px, calc(100% - 32px));
-  margin: 0 auto;
-  padding: 40px 0;
-}
-
-.hero {
-  min-height: 48vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-bottom: 1px solid var(--line);
-}
-
-.eyebrow {
-  margin: 0 0 14px;
-  color: var(--accent);
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-h1 {
-  max-width: 880px;
-  margin: 0;
-  font-size: clamp(36px, 7vw, 80px);
-  line-height: 1.02;
-  font-weight: 760;
-}
-
-.summary {
-  max-width: 720px;
-  margin: 22px 0 0;
-  color: var(--muted);
-  font-size: 18px;
-  line-height: 1.7;
-}
-
-.meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 24px;
-}
-
-.meta span {
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.72);
-  padding: 8px 10px;
-  border-radius: 6px;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  padding: 28px 0;
-}
-
-article,
-.workflow {
-  background: var(--panel);
-  border: 1px solid var(--line);
+header {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
   border-radius: 8px;
-  padding: 22px;
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+header .subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+section {
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  margin-bottom: 2rem;
 }
 
 h2 {
-  margin: 0 0 14px;
-  font-size: 22px;
+  color: var(--primary);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
-p,
-li {
-  color: var(--muted);
-  line-height: 1.7;
+h3 {
+  color: var(--secondary);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
-ul,
-ol {
-  margin: 0;
-  padding-left: 20px;
+p, li {
+  margin-bottom: 0.75rem;
 }
 
-.workflow {
-  margin-top: 8px;
+ul, ol {
+  padding-left: 1.5rem;
 }
 
-.steps {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+pre {
+  background: #f1f5f9;
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 1rem 0;
 }
 
-.steps div {
-  min-height: 104px;
-  border-left: 4px solid var(--accent-2);
-  background: var(--wash);
-  border-radius: 6px;
-  padding: 14px;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
 }
 
-.steps strong {
-  display: block;
-  color: var(--accent-2);
-  font-size: 22px;
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.75rem;
+  text-align: left;
 }
 
-.steps span {
-  display: block;
-  margin-top: 10px;
-  color: var(--ink);
-  line-height: 1.55;
+th {
+  background: #f1f5f9;
+  font-weight: 600;
 }
 
-@media (max-width: 760px) {
-  .shell {
-    width: min(100% - 24px, 1120px);
-    padding: 24px 0;
+footer {
+  text-align: center;
+  padding: 1rem;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
   }
-
-  .grid,
-  .steps {
-    grid-template-columns: 1fr;
+  header h1 {
+    font-size: 1.8rem;
   }
-
-  .hero {
-    min-height: 42vh;
+  section {
+    padding: 1rem;
+  }
+  table {
+    font-size: 0.8rem;
   }
 }

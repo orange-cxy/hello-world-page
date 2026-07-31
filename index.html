@@ -1,52 +1,145 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RAG 检索增强生成 | Agent Team Learning Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>向量数据库核心原理 - 学习笔记</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <main class="shell">
-    <section class="hero">
-      <p class="eyebrow">Research Agent -> Web Agent -> GitHub Pages</p>
-      <h1>RAG 检索增强生成</h1>
-      <p class="summary">这是由本地 Agent Team 生成的学习页面：Research Agent 先输出学习报告，Web Agent 再把报告转化为静态页面并准备发布到 gh-pages。</p>
-      <div class="meta">
-        <span>Research Artifact: artifact_20260731174943_628c2223</span>
-        <span>Generated: 2026-07-31T17:49:43.561Z</span>
-      </div>
+  <header>
+    <h1>向量数据库核心原理</h1>
+    <p class="subtitle">学习报告 · 2026-07-31</p>
+  </header>
+
+  <main>
+    <!-- 摘要 -->
+    <section id="summary">
+      <h2>摘要</h2>
+      <p>向量数据库专门用于存储、索引和检索高维向量数据，解决语义相似性搜索问题。通过嵌入模型将非结构化数据转化为向量，利用近似最近邻（ANN）算法快速找到相似条目。</p>
     </section>
 
-    <section class="grid">
+    <!-- 学习目标 -->
+    <section id="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>理解向量数据库与传统关系型数据库的差异</li>
+        <li>掌握三种相似度度量及其适用场景</li>
+        <li>了解 HNSW、IVF、PQ 索引的构建与权衡</li>
+        <li>熟悉典型系统架构与查询链路</li>
+        <li>完成最小可行实践：文本到向量检索</li>
+        <li>识别当前挑战与开放问题</li>
+      </ul>
+    </section>
+
+    <!-- 核心概念 -->
+    <section id="concepts">
+      <h2>核心概念</h2>
       <article>
-        <h2>研究目标</h2>
-        <p>围绕“RAG 检索增强生成”建立一份可执行的学习报告，帮助后续 Web Agent 生成公开页面或内部学习页面。报告重点不是罗列概念，而是把学习对象拆成目标、结构、实践路径、风险边界和下一步行动。</p>
+        <h3>向量（Embedding）</h3>
+        <p>将非结构化数据映射为固定维度浮点数数组，语义相近的数据在向量空间中距离相近。</p>
       </article>
       <article>
-        <h2>核心概念</h2>
-        <ul></ul>
+        <h3>相似度度量</h3>
+        <table>
+          <thead>
+            <tr><th>度量方式</th><th>公式（示意）</th><th>适用场景</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>余弦相似度</td><td>cos(θ) = (A·B) / (‖A‖·‖B‖)</td><td>文本语义相似度</td></tr>
+            <tr><td>欧氏距离（L2）</td><td>d = √(Σ(ai - bi)²)</td><td>图像特征</td></tr>
+            <tr><td>内积（点积）</td><td>A·B = Σ(ai·bi)</td><td>推荐系统</td></tr>
+          </tbody>
+        </table>
       </article>
       <article>
-        <h2>实践路径</h2>
-        <ol><li>先注册长期 Agent，并写明 Profile。</li><li>为真实反复出现的协作声明 Collaboration。</li><li>用 Message 替代 Human 手动转述。</li><li>跨 Agent、多 Turn 或多天的工作使用 Topic。</li><li>正式结果保存 Artifact。</li><li>缺少人的判断时创建 Needs You。</li></ol>
+        <h3>最近邻搜索（NN）与近似最近邻（ANN）</h3>
+        <p>精确 KNN 暴力扫描，时间复杂度 O(n·d)；ANN 牺牲少量精度换取速度提升。</p>
       </article>
       <article>
-        <h2>风险边界</h2>
-        <ul><li>Profile 不是授权证明。</li><li>Message 完成不代表业务正确。</li><li>Topic resolved 不代表现实动作全部完成。</li><li>GitHub Pages 发布成功只证明页面分支已推送，不证明访问链路已经刷新。</li><li>如果外发或公开内容涉及承诺，应由 Human 明确授权。</li></ul>
+        <h3>召回率（Recall）</h3>
+        <p>衡量 ANN 检索质量：召回率 = 检索到的真实最近邻数 / 理论最近邻总数。</p>
       </article>
     </section>
 
-    <section class="workflow">
-      <h2>Agent Team 工作流</h2>
-      <div class="steps">
-        <div><strong>1</strong><span>Human 提供课题</span></div>
-        <div><strong>2</strong><span>Research Agent 生成报告 Artifact</span></div>
-        <div><strong>3</strong><span>Web Agent 写入页面代码</span></div>
-        <div><strong>4</strong><span>Git 推送 main 与 gh-pages</span></div>
-      </div>
+    <!-- 技术架构 -->
+    <section id="architecture">
+      <h2>技术架构</h2>
+      <pre>
+应用层：SDK / API（写入向量、查询向量）
+查询层：相似度计算、Top-K 排序、过滤条件
+索引层：HNSW / IVF / PQ / 混合索引
+存储层：向量数据 + 元数据（标量）持久化
+基础设施：分布式节点、复制、故障恢复
+      </pre>
+      <p><strong>写入链路：</strong>客户端传入数据 → 写入日志（WAL）→ 构建/更新索引 → 元数据存储。</p>
+      <p><strong>查询链路：</strong>查询向量 → 粗粒度过滤 → ANN 索引候选集 → 精确计算排序 → 后处理。</p>
+    </section>
+
+    <!-- 索引机制 -->
+    <section id="indexes">
+      <h2>三大主流索引机制</h2>
+      <article>
+        <h3>HNSW</h3>
+        <p>多层图结构，查询延迟低、召回率高，无需训练，但内存占用大。</p>
+      </article>
+      <article>
+        <h3>IVF</h3>
+        <p>聚类分桶，内存效率高，适合超大规模数据，需训练。</p>
+      </article>
+      <article>
+        <h3>PQ</h3>
+        <p>子空间量化，极低内存占用，适合十亿级场景，有信息损失。</p>
+      </article>
+      <table>
+        <thead>
+          <tr><th>索引</th><th>查询速度</th><th>内存占用</th><th>召回率</th><th>是否需要训练</th><th>典型规模</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>HNSW</td><td>快</td><td>高</td><td>高</td><td>否</td><td>百万~千万</td></tr>
+          <tr><td>IVF</td><td>中</td><td>中</td><td>中</td><td>是</td><td>千万~亿</td></tr>
+          <tr><td>IVF-PQ</td><td>中快</td><td>低</td><td>中低</td><td>是</td><td>亿级以上</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 实践步骤 -->
+    <section id="practice">
+      <h2>实践步骤</h2>
+      <ol>
+        <li>准备嵌入模型（如 all-MiniLM-L6-v2）</li>
+        <li>选择向量数据库（如 Qdrant、Milvus）</li>
+        <li>创建集合并配置向量大小与距离度量</li>
+        <li>将文档切块并生成向量，写入数据</li>
+        <li>执行相似性查询，获取 Top-K 结果</li>
+        <li>评估召回率并调优参数（如 M、ef_search）</li>
+      </ol>
+    </section>
+
+    <!-- 风险与开放问题 -->
+    <section id="risks">
+      <h2>风险与开放问题</h2>
+      <h3>技术风险</h3>
+      <ul>
+        <li>数据更新成本高</li>
+        <li>内存瓶颈</li>
+        <li>维度灾难</li>
+      </ul>
+      <h3>开放问题</h3>
+      <ul>
+        <li>混合查询（Hybrid Search）</li>
+        <li>动态索引</li>
+        <li>可解释性</li>
+        <li>评估基准不统一</li>
+        <li>多模态统一向量空间</li>
+      </ul>
     </section>
   </main>
+
+  <footer>
+    <p>学习报告生成于 2026-07-31 · 未联网核验，内容基于通用技术知识</p>
+  </footer>
+
   <script src="./script.js"></script>
 </body>
 </html>
