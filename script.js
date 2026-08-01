@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // 平滑滚动到锚点（用于导航，但这里没有导航，可留作扩展）
+  // 平滑滚动到锚点（用于导航）
   const links = document.querySelectorAll('a[href^="#"]');
   links.forEach(link => {
     link.addEventListener('click', function(e) {
