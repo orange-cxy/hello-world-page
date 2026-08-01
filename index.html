@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>欢迎页面 - MCP 协议学习</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header>
+    <h1>你好，AI</h1>
+    <p class="subtitle">欢迎来到 MCP 协议学习之旅</p>
+  </header>
+
+  <main>
+    <section id="welcome">
+      <h2>欢迎</h2>
+      <p>本页面是 MCP 协议学习项目的欢迎页。通过本页面，你可以快速了解 MCP 的核心概念，并导航到详细的学习内容。</p>
+    </section>
+
+    <section id="quick-links">
+      <h2>快速导航</h2>
+      <ul>
+        <li><a href="#summary">摘要</a></li>
+        <li><a href="#objectives">学习目标</a></li>
+        <li><a href="#concepts">核心概念</a></li>
+        <li><a href="#architecture">技术架构</a></li>
+        <li><a href="#practice">实践步骤</a></li>
+        <li><a href="#risks">风险与开放问题</a></li>
+      </ul>
+    </section>
+
+    <!-- 摘要 -->
+    <section id="summary">
+      <h2>摘要</h2>
+      <p>MCP（Model Context Protocol，模型上下文协议）是一种开放协议，用于标准化 AI 模型与外部数据源、工具之间的通信方式。它由 Anthropic 于 2024 年 11 月提出并开源，目标是解决 AI 应用开发中"每个模型对接每个工具都需要定制集成"的碎片化问题。MCP 采用客户端-服务器架构，通过 JSON-RPC 2.0 进行消息传递，支持资源（Resources）、工具（Tools）和提示词（Prompts）三类原语。</p>
+    </section>
+
+    <!-- 学习目标 -->
+    <section id="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>用自己的话解释 MCP 解决的核心问题（"AI 集成的 USB-C 接口"）</li>
+        <li>区分 MCP 中的 Host、Client、Server 三个角色及其职责</li>
+        <li>描述 MCP 的三类原语（Resources / Tools / Prompts）及其适用场景</li>
+        <li>理解 MCP 的传输层选项（stdio 与 Streamable HTTP）及各自适用场景</li>
+        <li>独立搭建一个最小 MCP Server，并从一个 MCP Client 调用其工具</li>
+        <li>识别 MCP 当前的安全边界与已知开放问题</li>
+      </ul>
+    </section>
+
+    <!-- 核心概念 -->
+    <section id="concepts">
+      <h2>核心概念</h2>
+      <article>
+        <h3>为什么需要 MCP</h3>
+        <p>在 MCP 出现之前，AI 应用对接外部系统通常需要为每个"模型-工具"组合编写定制胶水代码，导致集成成本高、上下文管理混乱、安全边界模糊。MCP 标准化了这一层，让工具提供方只需实现一次 MCP Server，即可被任何支持 MCP 的客户端复用。</p>
+      </article>
+      <article>
+        <h3>三个核心角色</h3>
+        <table>
+          <thead>
+            <tr><th>角色</th><th>说明</th><th>典型例子</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Host</td><td>用户交互的应用程序，负责管理多个 Client 连接</td><td>Claude Desktop、IDE 插件</td></tr>
+            <tr><td>Client</td><td>与 Server 建立 1:1 连接的组件</td><td>Host 内部的连接器</td></tr>
+            <tr><td>Server</td><td>暴露资源/工具/提示词的进程</td><td>文件系统服务器、数据库服务器</td></tr>
+          </tbody>
+        </table>
+      </article>
+      <article>
+        <h3>三类原语</h3>
+        <ul>
+          <li><strong>Resources（资源）</strong>：可读取的数据实体，如文件内容、数据库记录。</li>
+          <li><strong>Tools（工具）</strong>：可执行的函数，模型可以主动调用。</li>
+          <li><strong>Prompts（提示词）</strong>：可复用的提示模板。</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- 技术架构 -->
+    <section id="architecture">
+      <h2>技术架构</h2>
+      <pre>
+┌─────────────────────────────────────┐
+│            Host (应用层)              │
+├─────────────────────────────────────┤
+│            MCP Client                │
+├─────────────────────────────────────┤
+│   JSON-RPC 2.0 消息层                │
+├──────────────┬──────────────────────┤
+│  stdio       │  Streamable HTTP      │
+│  (本地进程)  │  (远程服务)            │
+└──────────────┴──────────────────────┘
+      </pre>
+      <p><strong>生命周期：</strong>初始化 → 就绪 → 运行 → 关闭。</p>
+      <p><strong>传输层对比：</strong>stdio 适合本地、安全敏感场景；Streamable HTTP 适合跨网络、多租户场景。</p>
+    </section>
+
+    <!-- 实践步骤 -->
+    <section id="practice">
+      <h2>实践步骤</h2>
+      <ol>
+        <li>环境准备：Node.js 18+ 或 Python 3.10+，安装 MCP SDK</li>
+        <li>实现最小 MCP Server，注册一个工具（如 add）</li>
+        <li>运行 Server（stdio 传输）</li>
+        <li>用 Client 调用工具，验证结果</li>
+        <li>（可选）接入 Claude Desktop</li>
+      </ol>
+    </section>
+
+    <!-- 风险与开放问题 -->
+    <section id="risks">
+      <h2>风险与开放问题</h2>
+      <h3>已知风险</h3>
+      <ul>
+        <li>工具滥用</li>
+        <li>提示注入</li>
+        <li>传输安全</li>
+        <li>版本兼容</li>
+      </ul>
+      <h3>开放问题</h3>
+      <ul>
+        <li>与 OpenAI Function Calling、Google A2A 的竞争/融合</li>
+        <li>标准化组织归属</li>
+        <li>大规模生产环境性能基准</li>
+        <li>多 Server 上下文窗口管理</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>欢迎页面 · 学习报告生成于 2026-08-01 · 未联网核验，内容基于通用技术知识</p>
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>
